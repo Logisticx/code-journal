@@ -14,11 +14,43 @@ header {
 
 main {
   display: flex;
+  flex-wrap: wrap;
   align-content: flex-start;
+  flex-direction: column;
 }
 
 button {
   background-color: #5900fff8;
   color: white;
   border-radius: 5px;
+  font-size: 1rem;
+  border: none;
+  margin-top: 10px;
+  float: right;
+  padding: 10px 16px;
+}
+
+label {
+  padding-top: 18px;
+  display: flex;
+}
+
+@media screen and (min-width: 768px) {
+  label {
+    display: flex;
+    padding-top: 67px;
+  }
+}
+
+input {
+  padding-top: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 10px;
+  resize: none;
 }
