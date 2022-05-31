@@ -1,0 +1,55 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: #5900fff8;
+  color: white;
+}
+
+button {
+  background-color: #5900fff8;
+  color: white;
+  border-radius: 5px;
+  font-size: 1rem;
+  border: none;
+  margin-top: 10px;
+  float: right;
+  padding: 10px 16px;
+}
+
+label {
+  padding-top: 18px;
+  display: flex;
+  font-weight: 600;
+}
+
+@media screen and (min-width: 768px) {
+  label {
+    display: flex;
+    padding-top: 67px;
+  }
+}
+
+input {
+  padding-top: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+textarea {
+  width: 100%;
+  margin-top: 10px;
+  resize: none;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+div.img {
+  display: flex;
+  flex-direction: column;
+}
