@@ -18,11 +18,11 @@ function submitEvent(event) {
   newObj.currentEntryId = data.nextEntryId;
   data.nextEntryId++;
 
+  data.entries.unshift(newObj);
+
   document.querySelector('.image').reset();
   document.querySelector('#title-name').reset();
   document.querySelector('#notes').reset();
-  data.entries.unshift(newObj);
-
   event.preventDefault();
 }
 
