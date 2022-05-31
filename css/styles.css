@@ -54,3 +54,8 @@ textarea {
   margin-top: 10px;
   resize: none;
 }
+
+div.img {
+  display: flex;
+  flex-direction: column;
+}
