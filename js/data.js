@@ -6,3 +6,18 @@ var data = {
   editing: null,
   nextEntryId: 1
 };
+
+window.addEventListener('beforeunload', windowString);
+function windowString(event) {
+  var entriesJSON = JSON.stringify(data.entries);
+  localStorage.setItem('javascript-local-storage', entriesJSON);
+}
+
+window.addEventListener('load', windowsLoad);
+function windowsLoad(event) {
+  var previousentriesJSON = localStorage.getItem('javascript-local-storage');
+  if (previousentriesJSON !== null) {
+    data.entries = JSON.parse(previousentriesJSON);
+  }
+
+}

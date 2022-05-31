@@ -4,7 +4,6 @@ photoUrl.addEventListener('input', photoFunction);
 function photoFunction(event) {
   var imageInput = document.querySelector('#photo-url').value;
   document.querySelector('.image').src = imageInput;
-  return imageInput;
 }
 
 var journalEntry = document.querySelector('form');
@@ -17,17 +16,8 @@ function submitEvent(event) {
   newObj.notes = document.querySelector('#notes').value;
   newObj.currentEntryId = data.nextEntryId;
   data.nextEntryId++;
-
   data.entries.unshift(newObj);
-
-  document.querySelector('.image').reset();
-  document.querySelector('#title-name').reset();
-  document.querySelector('#notes').reset();
   event.preventDefault();
-}
-
-window.addEventListener('beforeunload', windowString);
-function windowString(event) {
-  var entriesJSON = JSON.stringify(data.entries);
-  localStorage.setItem('javascript-local-storage', entriesJSON);
+  document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
+  document.querySelector('form').reset();
 }
