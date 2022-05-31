@@ -4,19 +4,8 @@ form {
 }
 
 header {
-  display: flex;
   background-color: #5900fff8;
   color: white;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  flex-direction: column;
-}
-
-main {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  flex-direction: column;
 }
 
 button {
