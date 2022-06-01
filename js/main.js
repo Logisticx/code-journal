@@ -61,3 +61,33 @@ for (var i = 0; i < data.entries.length; i++) {
   domContent.appendChild(dataEntries);
 
 }
+
+var entrySwitch = document.querySelector('.entries-button');
+entrySwitch.addEventListener('click', viewSwitchFunction);
+
+var divClassName = document.querySelector('.active');
+var divClassNametwo = document.querySelector('.hidden');
+
+function viewSwitchFunction(event) {
+  data.view = 'entries';
+  divClassNametwo.className = 'active';
+  divClassName.className = 'hidden';
+}
+
+var entriesSwitch = document.querySelector('.new-button');
+entriesSwitch.addEventListener('click', viewSwitchFunctionTwo);
+
+function viewSwitchFunctionTwo(event) {
+  data.view = 'entry-form';
+  divClassName.className = 'active';
+  divClassNametwo.className = 'hidden';
+}
+
+var submitSwitch = document.querySelector('.submit');
+submitSwitch.addEventListener('click', viewSwitchFunctionThree);
+
+function viewSwitchFunctionThree(event) {
+  data.view = 'entries'; /* changing div data-view and data.view still gets wiped upon refresh */
+  divClassName.className = 'hidden';
+  divClassNametwo.className = 'active';
+}

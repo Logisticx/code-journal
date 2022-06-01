@@ -16,14 +16,20 @@
 <body>
   <header>
     <div class="container">
-      <div class="column-full">
-        <h2> Code Journal</h2>
+      <div class="row">
+        <div class="column-full">
+          <ul class="nav">
+            <li class="nav-list">Code Journal</li>
+            <li class="nav-list"><a class="entries-button">Entries</a></li>
+          </ul>
+        </div>
       </div>
+
     </div>
   </header>
   <main>
     <div class="container">
-      <div data-view="entry-form">
+      <div class="active" data-view="entry-form">
         <form id="new-entry-form">
           <div class="row">
             <div class="column-half">
@@ -44,7 +50,7 @@
               <label for="notes">Notes</label>
               <div>
                 <textarea required id="notes" name="notes" rows="6" cols="50"></textarea>
-                <button type="submit">SAVE</button>
+                <button class="submit" type="submit">SAVE</button>
               </div>
             </div>
           </div>
@@ -52,11 +58,11 @@
       </div>
 
 
-      <div data-view="entries">
+      <div class="hidden" data-view="entries">
         <div class="row">
           <div class="column-full">
             <div>
-              <button>NEW</button>
+              <button class="new-button">NEW</button>
               <h2>Entries</h2>
             </div>
           </div>
@@ -67,6 +73,8 @@
             </ul>
           </div>
         </div>
+
+
       </div>
     </div>
   </main>
