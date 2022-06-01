@@ -9,16 +9,22 @@ window.addEventListener('beforeunload', windowString);
 function windowString(event) {
   var entriesJSON = JSON.stringify(data.entries);
   localStorage.setItem('javascript-local-storage', entriesJSON);
+
 }
+
 var previousentriesJSON = localStorage.getItem('javascript-local-storage');
 if (previousentriesJSON !== null) {
   data.entries = JSON.parse(previousentriesJSON);
+
+}
+
+if (localStorage.getItem('view') !== 'entries') {
+  data.view = localStorage.getItem('view');
 }
 
 var dataValue = document.querySelectorAll('[data-view]');
 var activeView = document.querySelectorAll('.view');
 var hiddenView = document.querySelectorAll('.hidden');
-
 var entrySwitch = document.querySelector('.entries-button');
 entrySwitch.addEventListener('click', viewSwitchFunction);
 
@@ -29,7 +35,8 @@ function viewSwitchFunction(event) {
       hiddenView[i].className = 'view';
       activeView[i].setAttribute('data-view', 'entries');
       hiddenView[i].setAttribute('data-view', 'entry-form');
-
+      data.view = 'entries';
+      localStorage.setItem('view', data.view);
     }
   }
 }
@@ -44,7 +51,8 @@ function viewSwitchFunctionTwo(event) {
       hiddenView[i].className = 'hidden';
       activeView[i].setAttribute('data-view', 'entry-form');
       hiddenView[i].setAttribute('data-view', 'entries');
-
+      data.view = 'entry-form';
+      localStorage.setItem('view', data.view);
     }
   }
 }
@@ -59,7 +67,13 @@ function viewSwitchFunctionThree(event) {
       hiddenView[i].className = 'view';
       activeView[i].setAttribute('data-view', 'entries');
       hiddenView[i].setAttribute('data-view', 'entry-form');
-
+      data.view = 'entries';
+      localStorage.setItem('view', data.view);
     }
   }
 }
+
+/* var dataViewValue = JSON.stringify(data.view);
+localStorage.setItem('data-view', dataViewValue);
+var previousViewsJSON = localStorage.getItem('data-view');
+data.view = JSON.parse(previousViewsJSON); */
