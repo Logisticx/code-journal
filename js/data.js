@@ -15,32 +15,51 @@ if (previousentriesJSON !== null) {
   data.entries = JSON.parse(previousentriesJSON);
 }
 
+var dataValue = document.querySelectorAll('[data-view]');
+var activeView = document.querySelectorAll('.view');
+var hiddenView = document.querySelectorAll('.hidden');
+
 var entrySwitch = document.querySelector('.entries-button');
 entrySwitch.addEventListener('click', viewSwitchFunction);
 
-var divClassName = document.querySelector('.active');
-var divClassNametwo = document.querySelector('.hidden');
-
 function viewSwitchFunction(event) {
-  data.view = 'entries';
-  divClassNametwo.className = 'active';
-  divClassName.className = 'hidden';
+  for (var i = 0; i <= dataValue.length; i++) {
+    if (dataValue[i] !== activeView) {
+      activeView[i].className = 'hidden';
+      hiddenView[i].className = 'view';
+      activeView[i].setAttribute('data-view', 'entries');
+      hiddenView[i].setAttribute('data-view', 'entry-form');
+
+    }
+  }
 }
 
 var entriesSwitch = document.querySelector('.new-button');
 entriesSwitch.addEventListener('click', viewSwitchFunctionTwo);
 
 function viewSwitchFunctionTwo(event) {
-  data.view = 'entries';
-  divClassName.className = 'active';
-  divClassNametwo.className = 'hidden';
+  for (var i = 0; i <= dataValue.length; i++) {
+    if (dataValue[i] !== activeView) {
+      activeView[i].className = 'view';
+      hiddenView[i].className = 'hidden';
+      activeView[i].setAttribute('data-view', 'entry-form');
+      hiddenView[i].setAttribute('data-view', 'entries');
+
+    }
+  }
 }
 
 var submitSwitch = document.querySelector('.submit');
 submitSwitch.addEventListener('click', viewSwitchFunctionThree);
 
 function viewSwitchFunctionThree(event) {
-  data.view = 'entries';
-  divClassName.className = 'hidden';
-  divClassNametwo.className = 'active';
+  for (var i = 0; i <= dataValue.length; i++) {
+    if (dataValue[i] !== activeView) {
+      activeView[i].className = 'hidden';
+      hiddenView[i].className = 'view';
+      activeView[i].setAttribute('data-view', 'entries');
+      hiddenView[i].setAttribute('data-view', 'entry-form');
+
+    }
+  }
 }
