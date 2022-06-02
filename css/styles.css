@@ -84,3 +84,14 @@ li.nav-list {
 .hidden {
   display: none;
 }
+
+.new-button {
+  padding-top: 10px;
+  margin-top: -2px;
+}
+
+.no-entries {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
