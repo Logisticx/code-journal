@@ -53,3 +53,45 @@ div.img {
   display: flex;
   flex-direction: column;
 }
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  padding-top: 40px;
+}
+
+h2 {
+  margin-top: 10px;
+}
+
+p {
+  line-height: 1.5;
+  font-size: large;
+}
+
+.nav {
+  display: flex;
+}
+
+li.nav-list {
+  padding-right: 74px;
+  margin-left: -46px;
+  font-size: 24px;
+}
+
+.hidden {
+  display: none;
+}
+
+#new-button {
+  padding-top: 10px;
+  margin-top: -2px;
+}
+
+.no-entries {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}

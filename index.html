@@ -16,14 +16,19 @@
 <body>
   <header>
     <div class="container">
-      <div class="column-full">
-        <h2> Code Journal</h2>
+      <div class="row">
+        <div class="column-full">
+          <ul class="nav">
+            <li class="nav-list">Code Journal</li>
+            <li class="nav-list"><a id="entries-button" class="entries-button">Entries</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>
   <main>
     <div class="container">
-      <div data-view="entry-form">
+      <div class="view" data-view="entry-form">
         <form id="new-entry-form">
           <div class="row">
             <div class="column-half">
@@ -44,11 +49,30 @@
               <label for="notes">Notes</label>
               <div>
                 <textarea required id="notes" name="notes" rows="6" cols="50"></textarea>
-                <button type="submit">SAVE</button>
+                <button id="save-button" class="save-button" type="submit">SAVE</button>
               </div>
             </div>
           </div>
         </form>
+      </div>
+      <div class="hidden" data-view="entries">
+        <div class="row">
+          <div class="column-full">
+            <div>
+              <button class="new-button" id="new-button">NEW</button>
+              <h2>Entries</h2>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="column-full">
+            <ul class="list">
+            </ul>
+            <div id="no-entries" class="no-entries">
+              <p>No entries have been recorded</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </main>
