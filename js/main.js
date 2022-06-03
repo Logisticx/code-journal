@@ -6,65 +6,54 @@ function photoFunction(event) {
   document.querySelector('.image').src = imageInput;
 }
 
-var noEntriesview = document.querySelector('.no-entries');
-var dataValue = document.querySelectorAll('[data-view]');
+function prependEntry(entry) {
+  var entryElement = createEntryElement(entry);
+  domContent.prepend(entryElement);
+}
+
+function submitEvent(event) {
+  var newObj = {};
+  newObj.title = document.querySelector('#title-name').value;
+  newObj.img = document.querySelector('#photo-url').value;
+  newObj.notes = document.querySelector('#notes').value;
+  newObj.currentEntryId = data.nextEntryId;
+  data.nextEntryId++;
+  data.entries.unshift(newObj);
+  event.preventDefault();
+  document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
+  document.querySelector('form').reset();
+  prependEntry(newObj);
+}
+
 var activeView = document.querySelectorAll('.view');
 var hiddenView = document.querySelectorAll('.hidden');
+var noEntriesview = document.querySelector('.no-entries');
+var entryToEntriesButton = document.querySelector('.entries-button');
 
-for (var i = 0; i <= dataValue.length; i++) {
-  if (localStorage.getItem('view') === 'entries') {
-    data.view = localStorage.getItem('view');
-    activeView[0].className = 'hidden';
+entryToEntriesButton.addEventListener('click', function (event) {
+  data.view = 'entries';
+  viewSwitch();
+});
+
+var saveToEntriesButton = document.querySelector('.save-button');
+saveToEntriesButton.addEventListener('click', function (event) {
+  data.view = 'entries';
+  viewSwitch();
+});
+
+var entriesToNewEntry = document.querySelector('.new-button');
+entriesToNewEntry.addEventListener('click', function (event) {
+  data.view = 'entry-form';
+  viewSwitch();
+});
+
+function viewSwitch(string) {
+  if (data.view === 'entry-form' || string === 'entry-form') {
+    activeView[0].className = 'view';
+    hiddenView[0].className = 'view hidden';
+  } else if (data.view === 'entries' || string === 'entries') {
+    activeView[0].className = 'view hidden';
     hiddenView[0].className = 'view';
-  }
-}
-
-var entrySwitch = document.querySelector('.entries-button');
-entrySwitch.addEventListener('click', viewSwitchFunction);
-
-function viewSwitchFunction(event) {
-  for (var i = 0; i <= dataValue.length; i++) {
-    if (dataValue[i] === activeView[i]) {
-      activeView[i].className = 'hidden';
-      activeView[i].setAttribute('data-view', 'entries');
-      data.view = 'entries';
-      localStorage.setItem('view', data.view);
-    } else {
-      hiddenView[0].className = 'view';
-      hiddenView[0].setAttribute('data-view', 'entry-form');
-    }
-  }
-}
-
-var entriesSwitch = document.querySelector('.new-button');
-entriesSwitch.addEventListener('click', viewSwitchFunctionTwo);
-
-function viewSwitchFunctionTwo(event) {
-  for (var i = 0; i <= dataValue.length; i++) {
-    if (dataValue[i] !== activeView) {
-      activeView[i].className = 'view';
-      hiddenView[i].className = 'view hidden';
-      activeView[i].setAttribute('data-view', 'entry-form');
-      hiddenView[i].setAttribute('data-view', 'entries');
-      data.view = 'entry-form';
-      localStorage.setItem('view', data.view);
-    }
-  }
-}
-
-var submitSwitch = document.querySelector('.submit');
-submitSwitch.addEventListener('click', viewSwitchFunctionThree);
-
-function viewSwitchFunctionThree(event) {
-  for (var i = 0; i <= dataValue.length; i++) {
-    if (dataValue[i] !== activeView) {
-      activeView[i].className = 'view hidden';
-      hiddenView[i].className = 'view';
-      activeView[i].setAttribute('data-view', 'entries');
-      hiddenView[i].setAttribute('data-view', 'entry-form');
-      data.view = 'entries';
-      localStorage.setItem('view', data.view);
-    }
   }
 }
 
@@ -97,35 +86,18 @@ function createEntryElement(object) {
   entriesDiv.appendChild(pText);
   noEntriesview.className = 'hidden';
   return openingLi;
-
 }
+
+document.addEventListener('DOMContentLoaded', loadEntries);
+var journalEntry = document.querySelector('form');
+journalEntry.addEventListener('submit', submitEvent);
+
 var domContent = document.querySelector('.list');
 function loadEntries() {
   domContent.innerHTML = '';
   for (var i = 0; i < data.entries.length; i++) {
     var dataEntries = createEntryElement(data.entries[i]);
     domContent.appendChild(dataEntries);
+    viewSwitch(data.view);
   }
-}
-document.addEventListener('DOMContentLoaded', loadEntries);
-var journalEntry = document.querySelector('form');
-journalEntry.addEventListener('submit', submitEvent);
-
-function prependEntry(entry) {
-  var entryElement = createEntryElement(entry);
-  domContent.prepend(entryElement);
-}
-
-function submitEvent(event) {
-  var newObj = {};
-  newObj.title = document.querySelector('#title-name').value;
-  newObj.img = document.querySelector('#photo-url').value;
-  newObj.notes = document.querySelector('#notes').value;
-  newObj.currentEntryId = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(newObj);
-  event.preventDefault();
-  document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
-  document.querySelector('form').reset();
-  prependEntry(newObj);
 }

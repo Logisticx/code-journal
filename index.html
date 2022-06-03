@@ -20,7 +20,7 @@
         <div class="column-full">
           <ul class="nav">
             <li class="nav-list">Code Journal</li>
-            <li class="nav-list"><a class="entries-button">Entries</a></li>
+            <li class="nav-list"><a id="entries-button" class="entries-button">Entries</a></li>
           </ul>
         </div>
       </div>
@@ -49,7 +49,7 @@
               <label for="notes">Notes</label>
               <div>
                 <textarea required id="notes" name="notes" rows="6" cols="50"></textarea>
-                <button class="submit" type="submit">SAVE</button>
+                <button id="save-button" class="save-button" type="submit">SAVE</button>
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
         <div class="row">
           <div class="column-full">
             <div>
-              <button class="new-button">NEW</button>
+              <button class="new-button" id="new-button">NEW</button>
               <h2>Entries</h2>
             </div>
           </div>

@@ -6,14 +6,14 @@ var data = {
   nextEntryId: 1
 };
 
-window.addEventListener('beforeunload', windowString);
-function windowString(event) {
-  var entriesJSON = JSON.stringify(data.entries);
-  localStorage.setItem('javascript-local-storage', entriesJSON);
+window.addEventListener('beforeunload', dataString);
+function dataString(event) {
+  var dataJSON = JSON.stringify(data);
+  localStorage.setItem('javascript-local-storage', dataJSON);
 
 }
 
 var previousentriesJSON = localStorage.getItem('javascript-local-storage');
 if (previousentriesJSON !== null) {
-  data.entries = JSON.parse(previousentriesJSON);
+  data = JSON.parse(previousentriesJSON);
 }
