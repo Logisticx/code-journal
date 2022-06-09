@@ -101,3 +101,5 @@ function loadEntries() {
     viewSwitch(data.view);
   }
 }
+
+/*test*/
