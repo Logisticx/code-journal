@@ -95,3 +95,22 @@ li.nav-list {
   align-items: center;
   flex-direction: column;
 }
+
+.fa {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: flex-end;
+  margin-right: 30px;
+  margin-bottom: -29px;
+  color: rebeccapurple;
+}
+
+.fa:hover,
+.fa:focus {
+  cursor: pointer;
+}
+
+/* .fa:active {
+  transform: scale(0.96);
+} */

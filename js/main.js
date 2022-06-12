@@ -12,6 +12,7 @@ function prependEntry(entry) {
 }
 
 function submitEvent(event) {
+  event.preventDefault();
   var newObj = {};
   newObj.title = document.querySelector('#title-name').value;
   newObj.img = document.querySelector('#photo-url').value;
@@ -19,7 +20,6 @@ function submitEvent(event) {
   newObj.currentEntryId = data.nextEntryId;
   data.nextEntryId++;
   data.entries.unshift(newObj);
-  event.preventDefault();
   document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
   document.querySelector('form').reset();
   prependEntry(newObj);
@@ -29,6 +29,36 @@ var activeView = document.querySelectorAll('.view');
 var hiddenView = document.querySelectorAll('.hidden');
 var noEntriesview = document.querySelector('.no-entries');
 var entryToEntriesButton = document.querySelector('.entries-button');
+
+var renderedEntriesList = document.querySelector('.list');
+renderedEntriesList.addEventListener('click', renderedEntriesClickFunction);
+
+function renderedEntriesClickFunction(event) {
+  if (event.target.tagName === 'I') {
+    data.view = 'entry-form';
+    viewSwitch();
+    for (var entry of data.entries) {
+      var parsed = parseInt(event.target.getAttribute('data-entry-id'));
+      if (parsed === entry.currentEntryId) {
+        data.editing = entry.currentEntryId;
+        document.querySelector('#title-name').value = entry.title;
+        document.querySelector('#photo-url').value = entry.img;
+        document.querySelector('.image').src = entry.img;
+        document.querySelector('#notes').value = entry.notes;
+
+        /*  Pre-populate the entry form with the clicked entry's
+     values from the object found in the data model. */
+
+      }
+    }
+  }
+
+  // }
+  /* document.getElementById().value = data.entries[i].img.value;
+  document.getElementById().value = data.entries[i].notes.value;
+  document.getElementById().value = data.entries[i].title.value;
+  */
+}
 
 entryToEntriesButton.addEventListener('click', function (event) {
   data.view = 'entries';
@@ -45,6 +75,10 @@ var entriesToNewEntry = document.querySelector('.new-button');
 entriesToNewEntry.addEventListener('click', function (event) {
   data.view = 'entry-form';
   viewSwitch();
+  document.querySelector('#title-name').value = '';
+  document.querySelector('#photo-url').value = '';
+  document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
+  document.querySelector('#notes').value = '';
 });
 
 function viewSwitch(string) {
@@ -57,8 +91,11 @@ function viewSwitch(string) {
   }
 }
 
+var dataEntryId = 1; /* Ensure that each rendered entry is given a data-entry-id attribute indicating which entry it is. */
 function createEntryElement(object) {
   var openingLi = document.createElement('li');
+  /* openingLi.setAttribute('data-entry-id', dataEntryId++); */ /* Ensure that each rendered entry is given a data-entry-id attribute indicating which entry it is. */
+  // console.log(openingLi);
   var rowDiv = document.createElement('div');
   rowDiv.className = 'row';
   openingLi.appendChild(rowDiv);
@@ -80,6 +117,11 @@ function createEntryElement(object) {
   columnHalfDivTwo.appendChild(entriesDiv);
   var hTwo = document.createElement('h2');
   hTwo.textContent = (object.title);
+  var editIcon = document.createElement('i');
+  editIcon.className = 'fa fa-pencil icon';
+  editIcon.setAttribute('data-entry-id', dataEntryId);
+  dataEntryId++;
+  entriesDiv.appendChild(editIcon);
   entriesDiv.appendChild(hTwo);
   var pText = document.createElement('p');
   pText.textContent = (object.notes);
@@ -101,5 +143,3 @@ function loadEntries() {
     viewSwitch(data.view);
   }
 }
-
-/*test*/
