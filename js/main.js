@@ -12,6 +12,7 @@ function prependEntry(entry) {
 }
 
 function submitEvent(event) {
+
   event.preventDefault();
   var newObj = {};
   newObj.title = document.querySelector('#title-name').value;
@@ -23,6 +24,7 @@ function submitEvent(event) {
   document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
   document.querySelector('form').reset();
   prependEntry(newObj);
+
 }
 
 var activeView = document.querySelectorAll('.view');
@@ -37,20 +39,24 @@ function renderedEntriesClickFunction(event) {
   if (event.target.tagName === 'I') {
     data.view = 'entry-form';
     viewSwitch();
-    for (var entry of data.entries) {
+    for (var i = 0; i < data.entries.length; i++) {
       var parsed = parseInt(event.target.getAttribute('data-entry-id'));
-      if (parsed === entry.currentEntryId) {
-        data.editing = entry.currentEntryId;
-        document.querySelector('#title-name').value = entry.title;
-        document.querySelector('#photo-url').value = entry.img;
-        document.querySelector('.image').src = entry.img;
-        document.querySelector('#notes').value = entry.notes;
-
+      if (parsed === data.entries[i].currentEntryId) {
+        data.editing = data.entries[i].currentEntryId;
+        // console.log(data.entries[i]);
+        // console.log(event.target);
+        document.querySelector('#title-name').value = data.entries[i].title;
+        document.querySelector('#photo-url').value = data.entries[i].img;
+        document.querySelector('.image').src = data.entries[i].img;
+        document.querySelector('#notes').value = data.entries[i].notes;
+        /* button on line 127 is not lining up with the currentEntryID. div value changes on page load */
         /*  Pre-populate the entry form with the clicked entry's
      values from the object found in the data model. */
 
       }
     }
+  } else {
+    data.editing = null;
   }
 
   // }
@@ -91,11 +97,10 @@ function viewSwitch(string) {
   }
 }
 
-var dataEntryId = 1; /* Ensure that each rendered entry is given a data-entry-id attribute indicating which entry it is. */
+var dataEntryId = 1;
 function createEntryElement(object) {
   var openingLi = document.createElement('li');
-  /* openingLi.setAttribute('data-entry-id', dataEntryId++); */ /* Ensure that each rendered entry is given a data-entry-id attribute indicating which entry it is. */
-  // console.log(openingLi);
+
   var rowDiv = document.createElement('div');
   rowDiv.className = 'row';
   openingLi.appendChild(rowDiv);
