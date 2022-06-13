@@ -13,16 +13,27 @@ function prependEntry(entry) {
 
 function submitEvent(event) {
   event.preventDefault();
-  var newObj = {};
-  newObj.title = document.querySelector('#title-name').value;
-  newObj.img = document.querySelector('#photo-url').value;
-  newObj.notes = document.querySelector('#notes').value;
-  newObj.currentEntryId = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(newObj);
-  document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
-  document.querySelector('form').reset();
-  prependEntry(newObj);
+
+  if (data.editing === null) {
+    var newObj = {};
+    newObj.title = document.querySelector('#title-name').value;
+    newObj.img = document.querySelector('#photo-url').value;
+    newObj.notes = document.querySelector('#notes').value;
+    newObj.currentEntryId = data.nextEntryId;
+    data.nextEntryId++;
+    data.entries.unshift(newObj);
+    document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
+    document.querySelector('form').reset();
+    prependEntry(newObj);
+  } for (var i = 0; i < data.entries.length; i++) {
+    if (data.editing === data.entries[i].currentEntryId) {
+      data.entries[i].img = document.querySelector('#photo-url').value;
+      data.entries[i].notes = document.querySelector('#notes').value;
+      data.entries[i].title = document.querySelector('#title-name').value;
+      loadEntries();
+      data.editing = null;
+    }
+  }
 }
 
 var activeView = document.querySelectorAll('.view');
@@ -39,28 +50,13 @@ function renderedEntriesClickFunction(event) {
       data.view = 'entry-form';
       viewSwitch();
       data.editing = data.entries[i].currentEntryId;
-      // console.log(data.entries[i]);
-      // console.log(event.target);
-      /*  Pre-populate the entry form with the clicked entry's
-     values from the object found in the data model. */
       document.querySelector('#title-name').value = data.entries[i].title;
       document.querySelector('#photo-url').value = data.entries[i].img;
       document.querySelector('.image').src = data.entries[i].img;
       document.querySelector('#notes').value = data.entries[i].notes;
-      console.log(document.querySelector('#title-name'));
-      console.log(document.querySelector('img'));
-      console.log(document.querySelector('#notes'));
-
-      /* button on line 127 is not lining up with the currentEntryID. div value changes on page load */
-      if (event.target.className === 'save-button') {
-        /* remove dom tree and re append  updated dom tree */
-        submitEvent();
-      }
     }
   }
-
 }
-
 entryToEntriesButton.addEventListener('click', function (event) {
   data.view = 'entries';
   viewSwitch();
@@ -75,6 +71,7 @@ saveToEntriesButton.addEventListener('click', function (event) {
 var entriesToNewEntry = document.querySelector('.new-button');
 entriesToNewEntry.addEventListener('click', function (event) {
   data.view = 'entry-form';
+  data.editing = null;
   viewSwitch();
   document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
   document.querySelector('form').reset();
@@ -90,10 +87,9 @@ function viewSwitch(string) {
   }
 }
 
-var dataEntryId = 1;
 function createEntryElement(object) {
   var openingLi = document.createElement('li');
-  openingLi.setAttribute('data-entry-id', dataEntryId);
+  openingLi.setAttribute('data-entry-id', object.currentEntryId);
   var rowDiv = document.createElement('div');
   rowDiv.className = 'row';
   openingLi.appendChild(rowDiv);
@@ -117,8 +113,7 @@ function createEntryElement(object) {
   hTwo.textContent = (object.title);
   var editIcon = document.createElement('i');
   editIcon.className = 'fa fa-pencil icon';
-  editIcon.setAttribute('data-entry-id', dataEntryId);
-  dataEntryId++;
+  editIcon.setAttribute('data-entry-id', object.currentEntryId);
   entriesDiv.appendChild(editIcon);
   entriesDiv.appendChild(hTwo);
   var pText = document.createElement('p');
@@ -131,7 +126,6 @@ function createEntryElement(object) {
 document.addEventListener('DOMContentLoaded', loadEntries);
 var journalEntry = document.querySelector('form');
 journalEntry.addEventListener('submit', submitEvent);
-
 var domContent = document.querySelector('.list');
 function loadEntries() {
   domContent.innerHTML = '';
