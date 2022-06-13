@@ -12,7 +12,6 @@ function prependEntry(entry) {
 }
 
 function submitEvent(event) {
-
   event.preventDefault();
   var newObj = {};
   newObj.title = document.querySelector('#title-name').value;
@@ -24,46 +23,42 @@ function submitEvent(event) {
   document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
   document.querySelector('form').reset();
   prependEntry(newObj);
-
 }
 
 var activeView = document.querySelectorAll('.view');
 var hiddenView = document.querySelectorAll('.hidden');
 var noEntriesview = document.querySelector('.no-entries');
 var entryToEntriesButton = document.querySelector('.entries-button');
-
 var renderedEntriesList = document.querySelector('.list');
 renderedEntriesList.addEventListener('click', renderedEntriesClickFunction);
 
 function renderedEntriesClickFunction(event) {
-  if (event.target.tagName === 'I') {
-    data.view = 'entry-form';
-    viewSwitch();
-    for (var i = 0; i < data.entries.length; i++) {
-      var parsed = parseInt(event.target.getAttribute('data-entry-id'));
-      if (parsed === data.entries[i].currentEntryId) {
-        data.editing = data.entries[i].currentEntryId;
-        // console.log(data.entries[i]);
-        // console.log(event.target);
-        document.querySelector('#title-name').value = data.entries[i].title;
-        document.querySelector('#photo-url').value = data.entries[i].img;
-        document.querySelector('.image').src = data.entries[i].img;
-        document.querySelector('#notes').value = data.entries[i].notes;
-        /* button on line 127 is not lining up with the currentEntryID. div value changes on page load */
-        /*  Pre-populate the entry form with the clicked entry's
+  for (var i = 0; i < data.entries.length; i++) {
+    var parsed = parseInt(event.target.getAttribute('data-entry-id'));
+    if (parsed === data.entries[i].currentEntryId) {
+      data.view = 'entry-form';
+      viewSwitch();
+      data.editing = data.entries[i].currentEntryId;
+      // console.log(data.entries[i]);
+      // console.log(event.target);
+      /*  Pre-populate the entry form with the clicked entry's
      values from the object found in the data model. */
+      document.querySelector('#title-name').value = data.entries[i].title;
+      document.querySelector('#photo-url').value = data.entries[i].img;
+      document.querySelector('.image').src = data.entries[i].img;
+      document.querySelector('#notes').value = data.entries[i].notes;
+      console.log(document.querySelector('#title-name'));
+      console.log(document.querySelector('img'));
+      console.log(document.querySelector('#notes'));
 
+      /* button on line 127 is not lining up with the currentEntryID. div value changes on page load */
+      if (event.target.className === 'save-button') {
+        /* remove dom tree and re append  updated dom tree */
+        submitEvent();
       }
     }
-  } else {
-    data.editing = null;
   }
 
-  // }
-  /* document.getElementById().value = data.entries[i].img.value;
-  document.getElementById().value = data.entries[i].notes.value;
-  document.getElementById().value = data.entries[i].title.value;
-  */
 }
 
 entryToEntriesButton.addEventListener('click', function (event) {
@@ -81,10 +76,8 @@ var entriesToNewEntry = document.querySelector('.new-button');
 entriesToNewEntry.addEventListener('click', function (event) {
   data.view = 'entry-form';
   viewSwitch();
-  document.querySelector('#title-name').value = '';
-  document.querySelector('#photo-url').value = '';
   document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
-  document.querySelector('#notes').value = '';
+  document.querySelector('form').reset();
 });
 
 function viewSwitch(string) {
@@ -100,7 +93,7 @@ function viewSwitch(string) {
 var dataEntryId = 1;
 function createEntryElement(object) {
   var openingLi = document.createElement('li');
-
+  openingLi.setAttribute('data-entry-id', dataEntryId);
   var rowDiv = document.createElement('div');
   rowDiv.className = 'row';
   openingLi.appendChild(rowDiv);
