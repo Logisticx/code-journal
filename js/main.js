@@ -12,24 +12,51 @@ function prependEntry(entry) {
 }
 
 function submitEvent(event) {
-  var newObj = {};
-  newObj.title = document.querySelector('#title-name').value;
-  newObj.img = document.querySelector('#photo-url').value;
-  newObj.notes = document.querySelector('#notes').value;
-  newObj.currentEntryId = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(newObj);
   event.preventDefault();
-  document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
-  document.querySelector('form').reset();
-  prependEntry(newObj);
+
+  if (data.editing === null) {
+    var newObj = {};
+    newObj.title = document.querySelector('#title-name').value;
+    newObj.img = document.querySelector('#photo-url').value;
+    newObj.notes = document.querySelector('#notes').value;
+    newObj.currentEntryId = data.nextEntryId;
+    data.nextEntryId++;
+    data.entries.unshift(newObj);
+    document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
+    document.querySelector('form').reset();
+    prependEntry(newObj);
+  } for (var i = 0; i < data.entries.length; i++) {
+    if (data.editing === data.entries[i].currentEntryId) {
+      data.entries[i].img = document.querySelector('#photo-url').value;
+      data.entries[i].notes = document.querySelector('#notes').value;
+      data.entries[i].title = document.querySelector('#title-name').value;
+      loadEntries();
+      data.editing = null;
+    }
+  }
 }
 
 var activeView = document.querySelectorAll('.view');
 var hiddenView = document.querySelectorAll('.hidden');
 var noEntriesview = document.querySelector('.no-entries');
 var entryToEntriesButton = document.querySelector('.entries-button');
+var renderedEntriesList = document.querySelector('.list');
+renderedEntriesList.addEventListener('click', renderedEntriesClickFunction);
 
+function renderedEntriesClickFunction(event) {
+  for (var i = 0; i < data.entries.length; i++) {
+    var parsed = parseInt(event.target.getAttribute('data-entry-id'));
+    if (parsed === data.entries[i].currentEntryId) {
+      data.view = 'entry-form';
+      viewSwitch();
+      data.editing = data.entries[i].currentEntryId;
+      document.querySelector('#title-name').value = data.entries[i].title;
+      document.querySelector('#photo-url').value = data.entries[i].img;
+      document.querySelector('.image').src = data.entries[i].img;
+      document.querySelector('#notes').value = data.entries[i].notes;
+    }
+  }
+}
 entryToEntriesButton.addEventListener('click', function (event) {
   data.view = 'entries';
   viewSwitch();
@@ -44,7 +71,10 @@ saveToEntriesButton.addEventListener('click', function (event) {
 var entriesToNewEntry = document.querySelector('.new-button');
 entriesToNewEntry.addEventListener('click', function (event) {
   data.view = 'entry-form';
+  data.editing = null;
   viewSwitch();
+  document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
+  document.querySelector('form').reset();
 });
 
 function viewSwitch(string) {
@@ -59,6 +89,7 @@ function viewSwitch(string) {
 
 function createEntryElement(object) {
   var openingLi = document.createElement('li');
+  openingLi.setAttribute('data-entry-id', object.currentEntryId);
   var rowDiv = document.createElement('div');
   rowDiv.className = 'row';
   openingLi.appendChild(rowDiv);
@@ -80,6 +111,10 @@ function createEntryElement(object) {
   columnHalfDivTwo.appendChild(entriesDiv);
   var hTwo = document.createElement('h2');
   hTwo.textContent = (object.title);
+  var editIcon = document.createElement('i');
+  editIcon.className = 'fa fa-pencil icon';
+  editIcon.setAttribute('data-entry-id', object.currentEntryId);
+  entriesDiv.appendChild(editIcon);
   entriesDiv.appendChild(hTwo);
   var pText = document.createElement('p');
   pText.textContent = (object.notes);
@@ -91,7 +126,6 @@ function createEntryElement(object) {
 document.addEventListener('DOMContentLoaded', loadEntries);
 var journalEntry = document.querySelector('form');
 journalEntry.addEventListener('submit', submitEvent);
-
 var domContent = document.querySelector('.list');
 function loadEntries() {
   domContent.innerHTML = '';
