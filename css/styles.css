@@ -114,3 +114,52 @@ li.nav-list {
 /* .fa:active {
   transform: scale(0.96);
 } */
+
+.delete {
+  color: red;
+  text-decoration: underline;
+}
+
+.delete-modal {
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 10px;
+  width: 24em;
+  height: 9em;
+}
+
+.delete-modal-bg {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.delete-modal-bg-on {
+  display: flex;
+  background-color: rgba(0, 0, 0, 0.753);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-buttons {
+  display: flex;
+}
+
+#cancel-button {
+  color: black;
+  background-color: gray;
+  margin-right: 114px;
+}
+
+#confirm-button {
+  color: white;
+  background-color: red;
+}
