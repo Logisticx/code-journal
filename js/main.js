@@ -30,6 +30,7 @@ function submitEvent(event) {
       data.entries[i].img = document.querySelector('#photo-url').value;
       data.entries[i].notes = document.querySelector('#notes').value;
       data.entries[i].title = document.querySelector('#title-name').value;
+      deleteButton.className = 'delete hidden';
       loadEntries();
       data.editing = null;
     }
@@ -39,16 +40,49 @@ function submitEvent(event) {
 var activeView = document.querySelectorAll('.view');
 var hiddenView = document.querySelectorAll('.hidden');
 var noEntriesview = document.querySelector('.no-entries');
-var entryToEntriesButton = document.querySelector('.entries-button');
+var header = document.getElementById('head');
 var renderedEntriesList = document.querySelector('.list');
 renderedEntriesList.addEventListener('click', renderedEntriesClickFunction);
+var deleteModal = document.querySelector('#delete-modal-bg');
+var entryToEntriesButton = document.querySelector('.entries-button');
+var deleteButton = document.querySelector('.delete');
+deleteButton.addEventListener('click', function () {
+  deleteModal.className = 'delete-modal-bg-on';
+});
+
+var cancelButton = document.getElementById('cancel-button');
+cancelButton.addEventListener('click', function () {
+  if (event.target === cancelButton) {
+    deleteModal.className = 'delete-modal-bg';
+  }
+});
+
+var confirmButton = document.getElementById('confirm-button');
+confirmButton.addEventListener('click', function () {
+  if (event.target === confirmButton) {
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].currentEntryId === data.editing) {
+        data.entries.splice(i, 1);
+        deleteModal.className = 'delete-modal-bg';
+        data.editing = null;
+        data.view = 'entries';
+        viewSwitch();
+        loadEntries();
+      } if (data.entries.length === 0) {
+        noEntriesview.className = 'no-entries';
+      }
+    }
+  }
+});
 
 function renderedEntriesClickFunction(event) {
   for (var i = 0; i < data.entries.length; i++) {
     var parsed = parseInt(event.target.getAttribute('data-entry-id'));
     if (parsed === data.entries[i].currentEntryId) {
       data.view = 'entry-form';
+      deleteButton.className = 'delete';
       viewSwitch();
+      header.textContent = 'Edit Entry';
       data.editing = data.entries[i].currentEntryId;
       document.querySelector('#title-name').value = data.entries[i].title;
       document.querySelector('#photo-url').value = data.entries[i].img;
@@ -59,6 +93,7 @@ function renderedEntriesClickFunction(event) {
 }
 entryToEntriesButton.addEventListener('click', function (event) {
   data.view = 'entries';
+  deleteButton.className = 'delete hidden';
   viewSwitch();
 });
 
@@ -72,6 +107,7 @@ var entriesToNewEntry = document.querySelector('.new-button');
 entriesToNewEntry.addEventListener('click', function (event) {
   data.view = 'entry-form';
   data.editing = null;
+  header.textContent = 'New Entry';
   viewSwitch();
   document.querySelector('.image').src = 'images/placeholder-image-square.jpg';
   document.querySelector('form').reset();
@@ -80,10 +116,10 @@ entriesToNewEntry.addEventListener('click', function (event) {
 function viewSwitch(string) {
   if (data.view === 'entry-form' || string === 'entry-form') {
     activeView[0].className = 'view';
-    hiddenView[0].className = 'view hidden';
+    hiddenView[1].className = 'view hidden';
   } else if (data.view === 'entries' || string === 'entries') {
     activeView[0].className = 'view hidden';
-    hiddenView[0].className = 'view';
+    hiddenView[1].className = 'view';
   }
 }
 
